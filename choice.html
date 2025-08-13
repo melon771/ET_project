@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Activity</title>
+    <style>
+        body {
+            background: #111119;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.07);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #6a67ce;
+            text-align: center;
+        }
+        button {
+            margin: 20px;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background: #6a67ce;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5754c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome! What would you like to do?</h2>
+        <button id="quiz-btn">Take Quiz</button>
+        <button id="video-btn">Watch Video</button>
+    </div>
+    <script>
+function sendClickstreamEvent(eventType, description) {
+    fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            eventType,
+            description,
+            timestamp: new Date().toISOString()
+        })
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('quiz-btn').addEventListener('click', () => {
+        sendClickstreamEvent('click', 'Take Quiz button clicked');
+        window.location.href = 'quiz.html';
+    });
+    document.getElementById('video-btn').addEventListener('click', () => {
+        sendClickstreamEvent('click', 'Watch Video button clicked');
+        window.location.href = 'video.html';
+    });
+});
+</script>
+</body>
+</html>

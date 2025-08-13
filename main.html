@@ -163,17 +163,19 @@
                     });
                     const result = await response.json();
                     messageDiv.textContent = result.message;
+                    if (response.ok) {
+                        setTimeout(() => {
+                            window.location.href = "choice.html";
+                        }, 1000);
+                    }
                 } catch (err) {
                     messageDiv.textContent = "Error connecting to server.";
                 }
             });
         });
     </script>
-    <!-- <script src="clickstream.js"></script> -->
+    <script src="scirpt.js"></script>
 </body>
-
-
-
 
 </html>
 

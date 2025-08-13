@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clickstream Data</title>
+    <style>
+        body {
+            background: #111119;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+        table {
+            margin-top: 40px;
+            border-collapse: collapse;
+            width: 80vw;
+            max-width: 900px;
+            background: rgba(255,255,255,0.07);
+            box-shadow: 0 0 20px #6a67ce;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 18px;
+            border-bottom: 1px solid #5754c0;
+            text-align: left;
+        }
+        th {
+            background: #6a67ce;
+            color: #fff;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Clickstream Data</h2>
+    <table id="clickstream-table">
+        <thead>
+            <tr>
+                <th>Event Type</th>
+                <th>Description</th>
+                <th>Timestamp</th>
+                <th>IP Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+    <script>
+        async function loadClickstream() {
+            const res = await fetch('/api/clickstream');
+            const data = await res.json();
+            const tbody = document.querySelector('#clickstream-table tbody');
+            tbody.innerHTML = '';
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.eventType}</td>
+                    <td>${row.description}</td>
+                    <td>${row.timestamp}</td>
+                    <td>${row.ip || ''}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        loadClickstream();
+    </script>
+</body>
+</html>

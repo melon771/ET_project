@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>General Knowledge Quiz</title>
+    <style>
+        body {
+            background: #111119;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .quiz-container {
+            background: rgba(255,255,255,0.07);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #6a67ce;
+            width: 400px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background: #6a67ce;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5754c0;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>General Knowledge Quiz</h2>
+        <form id="quiz-form">
+            <div class="question">
+                <p>1. What is the capital of France?</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> Berlin</label>
+                    <label><input type="radio" name="q1" value="B"> Paris</label>
+                    <label><input type="radio" name="q1" value="C"> Madrid</label>
+                </div>
+            </div>
+            <div class="question">
+                <p>2. Who wrote 'Romeo and Juliet'?</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> Charles Dickens</label>
+                    <label><input type="radio" name="q2" value="B"> William Shakespeare</label>
+                    <label><input type="radio" name="q2" value="C"> Jane Austen</label>
+                </div>
+            </div>
+            <div class="question">
+                <p>3. What is the largest planet in our solar system?</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="A"> Earth</label>
+                    <label><input type="radio" name="q3" value="B"> Jupiter</label>
+                    <label><input type="radio" name="q3" value="C"> Mars</label>
+                </div>
+            </div>
+            <div class="question">
+                <p>4. Which element has the chemical symbol 'O'?</p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="A"> Gold</label>
+                    <label><input type="radio" name="q4" value="B"> Oxygen</label>
+                    <label><input type="radio" name="q4" value="C"> Silver</label>
+                </div>
+            </div>
+            <div class="question">
+                <p>5. Who painted the Mona Lisa?</p>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="A"> Vincent van Gogh</label>
+                    <label><input type="radio" name="q5" value="B"> Leonardo da Vinci</label>
+                    <label><input type="radio" name="q5" value="C"> Pablo Picasso</label>
+                </div>
+            </div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const answers = {
+                q1: 'B',
+                q2: 'B',
+                q3: 'B',
+                q4: 'B',
+                q5: 'B'
+            };
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const q = document.querySelector('input[name="q'+i+'"]:checked');
+                if (q && q.value === answers['q'+i]) score++;
+            }
+            document.getElementById('result').textContent = `You scored ${score} out of 5!`;
+        });
+    </script>
+</body>
+</html>

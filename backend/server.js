@@ -23,6 +23,15 @@ db.serialize(() => {
       timestamp TEXT
     )
   `);
+  db.run(`
+    CREATE TABLE IF NOT EXISTS clickstream (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      eventType TEXT,
+      description TEXT,
+      timestamp TEXT,
+      ip TEXT
+    )
+  `);
 });
 
 // Root route
@@ -53,6 +62,30 @@ app.post("/api/click", (req, res) => {
 
 app.get("/api/clicks", (req, res) => {
   db.all("SELECT username, password, timestamp FROM clicks", [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error." });
+    }
+    res.json(rows);
+  });
+});
+
+app.post("/api/track", (req, res) => {
+  const { eventType, description, timestamp } = req.body;
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  db.run(
+    "INSERT INTO clickstream (eventType, description, timestamp, ip) VALUES (?, ?, ?, ?)",
+    [eventType, description, timestamp, ip],
+    function (err) {
+      if (err) {
+        return res.status(500).json({ message: "Database error." });
+      }
+      res.json({ message: "Event received" });
+    }
+  );
+});
+
+app.get("/api/clickstream", (req, res) => {
+  db.all("SELECT eventType, description, timestamp, ip FROM clickstream", [], (err, rows) => {
     if (err) {
       return res.status(500).json({ message: "Database error." });
     }
